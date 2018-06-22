@@ -90,7 +90,7 @@ function Set-R2DConfig
 
     Begin
     {
-        $ConfigTemplate = (Get-Content .\conf.json.example | ConvertFrom-Json)
+        $ConfigTemplate = (Get-Content .\conf.json.template | ConvertFrom-Json)
     }
     Process
     {
