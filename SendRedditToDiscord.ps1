@@ -20,7 +20,7 @@ function Send-RedditToDiscord
                    ValueFromPipelineByPropertyName=$true,
                    Position=0)]
         [string]$Subreddit,
-        [ValidateSet('hour','day','month','year','all')]      
+        [ValidateSet('hour','day','week','month','year','all')]      
         [string]$TimePeriod='month',
         [bool]$IgnoreSticky = $true,
         [int]$Count = 25
