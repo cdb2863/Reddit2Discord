@@ -17,14 +17,27 @@ function Send-RedditToDiscord
         [Parameter(Mandatory=$true,
                    ValueFromPipelineByPropertyName=$true,
                    Position=0)]
-        [string]$Subreddit
+        [string]$Subreddit,
+        [bool]$IgnoreSticky
     )
 
     Begin
     {
-        $subreddit = "$Subreddit"
         $json = Invoke-RestMethod -Uri "https://old.reddit.com/r/$($subreddit)/top/.json?sort=top&t=month"
-        $urls = $json.data.children[0..25].data.url
+        
+        if($IgnoreSticky) {
+            $urls = foreach($item in $json.data.children.data) {
+                if(!$item.stickied) {
+                    $item.url
+                }
+            }
+        }
+        else {
+            $urls = foreach($item in $json.data.children.data) {
+                $item.url
+            }
+        }
+
         $hookUrl = $(Get-Content .\conf.json | ConvertFrom-Json).hookUrl
     }
     Process
@@ -36,10 +49,11 @@ function Send-RedditToDiscord
             }
 
             Invoke-RestMethod -Uri $hookUrl -Method Post -Body ($payload | ConvertTo-Json) | Out-Null
-            Start-Sleep -Seconds 1 | Out-Null
+            Start-Sleep -Seconds 3 | Out-Null
         }
     }
     End
     {
+
     }
 }
