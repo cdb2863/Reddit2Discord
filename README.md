@@ -11,3 +11,7 @@ Get posts from /r/all.
 ```PowerShell
 Send-Reddit2Discord -Subreddit all
 ```
+Use the function's alias to get one post from /r/videos.
+```PowerShell
+r2d videos -Count 1
+```
