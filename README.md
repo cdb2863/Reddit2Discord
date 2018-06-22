@@ -3,8 +3,10 @@
 
 ## Installation and configuration.
 1. Clone the repo.
-2. Copy conf.json.example to conf.json.
-3. Edit conf.json and set hookUrl to your discord webhook URL, then save.
+2. Execute the following command and substitute your Discord Hook URI for [HOOK_URI].
+```PowerShell
+Set-R2DConf -HookURI [HOOK_URI]
+```
 
 ## Use
 Get posts from /r/all.
