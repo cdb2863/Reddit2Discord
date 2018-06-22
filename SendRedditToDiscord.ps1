@@ -95,6 +95,13 @@ function Set-R2DConfig
     }
     End
     {
-
+        $CheckConf = Get-Content -Path .\conf.json | ConvertFrom-Json
+        if($CheckConf.hookURI -match $HookURI) {
+            Write-Output "Configured and verified conf.json."
+        }
+        else {
+            Write-Error "Unable to verify configuration."
+            
+        }
     }
 }
