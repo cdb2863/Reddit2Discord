@@ -18,12 +18,13 @@ function Send-RedditToDiscord
                    ValueFromPipelineByPropertyName=$true,
                    Position=0)]
         [string]$Subreddit,
-        [bool]$IgnoreSticky
+        [bool]$IgnoreSticky = $true,
+        [int]$Count = 25
     )
 
     Begin
     {
-        $json = Invoke-RestMethod -Uri "https://old.reddit.com/r/$($subreddit)/top/.json?sort=top&t=month"
+        $json = Invoke-RestMethod -Uri "https://old.reddit.com/r/$($subreddit)/top/.json?sort=top&t=month&limit=$($Count)"
         
         if($IgnoreSticky) {
             $urls = foreach($item in $json.data.children.data) {
@@ -49,7 +50,10 @@ function Send-RedditToDiscord
             }
 
             Invoke-RestMethod -Uri $hookUrl -Method Post -Body ($payload | ConvertTo-Json) | Out-Null
-            Start-Sleep -Seconds 3 | Out-Null
+            
+            if($Count -gt 1) {
+                Start-Sleep -Seconds 1 | Out-Null
+            }
         }
     }
     End
