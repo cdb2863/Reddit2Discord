@@ -20,13 +20,15 @@ function Send-RedditToDiscord
                    ValueFromPipelineByPropertyName=$true,
                    Position=0)]
         [string]$Subreddit,
+        [ValidateSet('hour','day','month','year','all')]      
+        [string]$TimePeriod='month',
         [bool]$IgnoreSticky = $true,
         [int]$Count = 25
     )
 
     Begin
     {
-        $json = Invoke-RestMethod -Uri "https://old.reddit.com/r/$($subreddit)/top/.json?sort=top&t=month&limit=$($Count)"
+        $json = Invoke-RestMethod -Uri "https://old.reddit.com/r/$($subreddit)/top/.json?sort=top&t=$($TimePeriod)&limit=$($Count)"
         
         if($IgnoreSticky) {
             $urls = foreach($item in $json.data.children.data) {
