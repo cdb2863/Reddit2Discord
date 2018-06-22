@@ -1,5 +1,5 @@
 # Reddit2Discord
-> Advanced PowerShell function to pull top urls from a subreddit and push them to a Discord channel.
+> PowerShell function to pull top urls from a subreddit and push them to a Discord channel.
 
 ## Installation and configuration.
 1. Clone the repo.
