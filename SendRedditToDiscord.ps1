@@ -5,6 +5,8 @@
    Send the top 25 posts of the month from a subreddit to Discord via webhooks.
 .EXAMPLE
    Send-RedditToDiscord -Subreddit all
+.EXAMPLE
+    Send-RedditToDiscord -Subreddit 
 #>
 function Send-RedditToDiscord
 {
@@ -58,7 +60,7 @@ function Send-RedditToDiscord
     }
     End
     {
-
+        Write-Output "Sent $Count posts from https://old.reddit.com/r/$($subreddit) to Discord."
     }
 }
 
