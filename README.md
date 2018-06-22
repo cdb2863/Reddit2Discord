@@ -7,6 +7,7 @@
 3. Edit conf.json and set hookUrl to your discord webhook URL, then save.
 
 ## Use
+Get posts from /r/all.
 ```PowerShell
 Send-Reddit2Discord -Subreddit all
 ```
