@@ -39,7 +39,7 @@ function Send-RedditToDiscord
             }
         }
 
-        $hookUrl = $(Get-Content .\conf.json | ConvertFrom-Json).hookUrl
+        $hookUri = $(Get-Content .\conf.json | ConvertFrom-Json).hookUri
     }
     Process
     {
@@ -49,12 +49,49 @@ function Send-RedditToDiscord
                 content = $url
             }
 
-            Invoke-RestMethod -Uri $hookUrl -Method Post -Body ($payload | ConvertTo-Json) | Out-Null
+            Invoke-RestMethod -Uri $hookUri -Method Post -Body ($payload | ConvertTo-Json) | Out-Null
             
             if($Count -gt 1) {
                 Start-Sleep -Seconds 1 | Out-Null
             }
         }
+    }
+    End
+    {
+
+    }
+}
+
+<#
+.Synopsis
+   Set configuration for Send-RedditToDiscord
+.DESCRIPTION
+   Set configuration for Send-RedditToDiscord
+.EXAMPLE
+   Set-R2DConfig
+#>
+function Set-R2DConfig
+{
+    [CmdletBinding()]
+    [Alias()]
+    [OutputType([int])]
+    Param
+    (
+        # Param1 help description
+        [Parameter(Mandatory=$true,
+                   ValueFromPipelineByPropertyName=$true,
+                   Position=0)]
+                   [string]$HookURI
+    )
+
+    Begin
+    {
+        $ConfigTemplate = (Get-Content .\conf.json.example | ConvertFrom-Json)
+    }
+    Process
+    {
+        $ConfigTemplate.hookUri = $HookURI
+        Set-Content .\conf.json ($ConfigTemplate | ConvertTo-Json)
     }
     End
     {
