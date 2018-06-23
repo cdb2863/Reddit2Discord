@@ -26,7 +26,7 @@ Count
 BroadcastSubreddit
 > Specifies whether the subreddit from which posts are pulled should be sent in a message to Discord.
 
-## Use
+## Examples
 Get posts from /r/all.
 ```PowerShell
 Send-Reddit2Discord -Subreddit all
