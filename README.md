@@ -8,6 +8,20 @@
 Set-R2DConf -HookURI [HOOK_URI]
 ```
 
+## Parameters
+Subreddit
+> Specifies what subreddit to pull posts from.
+TimePeriod
+> Specifies from what period of time top posts will be pulled from. 
+> Valid TimePeriods are hour, day, week, month, year, and all.
+IgnoreSticky
+> Specifies whether stickied posts should be ignored.
+> Has no effect at the time of writing because stickied posts do not appear in /top/.
+Count
+> Specifies how many posts should be pulled.
+BroadcastSubreddit
+> Specifies whether the subreddit from which posts are pulled should be sent in a message to Discord.
+
 ## Use
 Get posts from /r/all.
 ```PowerShell
