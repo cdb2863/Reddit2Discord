@@ -6,7 +6,19 @@
 .EXAMPLE
    Send-RedditToDiscord -Subreddit all
 .EXAMPLE
-    Send-RedditToDiscord -Subreddit 
+    Send-RedditToDiscord -Subreddit
+.PARAMETER Subreddit
+    Specifies what subreddit to pull posts from.
+.PARAMETER TimePeriod
+    Specifies from what period of time top posts will be pulled from.
+    Valid TimePeriods are hour, day, week, month, year, and all.
+.PARAMETER IgnoreSticky
+    Specifies whether stickied posts should be ignored.
+    Has no effect at the time of writing because stickied posts do not appear in /top/.
+.PARAMETER Count
+    Specifies how many posts should be pulled.
+.PARAMETER BroadcastSubreddit
+    Specifies whether the subreddit from which posts are pulled should be sent in a message to Discord.
 #>
 function Send-RedditToDiscord
 {
@@ -22,8 +34,9 @@ function Send-RedditToDiscord
         [string]$Subreddit,
         [ValidateSet('hour','day','week','month','year','all')]      
         [string]$TimePeriod='month',
-        [bool]$IgnoreSticky = $true,
-        [int]$Count = 25
+        [switch]$IgnoreSticky,
+        [int]$Count = 25,
+        [switch]$BroadcastSubreddit
     )
 
     Begin
@@ -47,12 +60,22 @@ function Send-RedditToDiscord
     }
     Process
     {
+
+        if($BroadcastSubreddit) {
+            $payload = [PSCustomObject]@{
+                content = "Sending $Count posts from /r/$Subreddit."
+            }
+            Invoke-RestMethod -Uri $hookUri -Method Post -Body ($payload | ConvertTo-Json) | Out-Null
+        }
+
         foreach($url in $urls)
         {
             $payload = [PSCustomObject]@{
                 content = $url
             }
 
+
+            #Write-Verbose "Sending $url to Discord."
             Invoke-RestMethod -Uri $hookUri -Method Post -Body ($payload | ConvertTo-Json) | Out-Null
             
             if($Count -gt 1) {
