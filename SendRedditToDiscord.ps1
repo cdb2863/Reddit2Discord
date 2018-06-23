@@ -1,12 +1,12 @@
 ﻿<#
 .Synopsis
-   Send the top 25 posts of the month from a subreddit to Discord.
+   Send the top posts from a subreddit to Discord.
 .DESCRIPTION
-   Send the top 25 posts of the month from a subreddit to Discord via webhooks.
+   Send the top posts from a subreddit to Discord via webhooks.
 .EXAMPLE
-   Send-RedditToDiscord -Subreddit all
+   Send-RedditToDiscord -Subreddit all -TimePeriod year -Count 10 -BroadcastSubreddit
 .EXAMPLE
-    Send-RedditToDiscord -Subreddit
+    Send-RedditToDiscord -Subreddit videos
 .PARAMETER Subreddit
     Specifies what subreddit to pull posts from.
 .PARAMETER TimePeriod
