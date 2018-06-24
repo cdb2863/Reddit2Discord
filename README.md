@@ -3,7 +3,8 @@
 
 ## Installation and configuration.
 1. Clone the repo.
-2. Execute the following command and substitute your Discord Hook URI for [HOOK_URI].
+2. Run SendRedditToDiscord.ps1.
+3. Execute the following command and substitute your Discord Hook URI for [HOOK_URI].
 ```PowerShell
 Set-R2DConf -HookURI [HOOK_URI]
 ```
