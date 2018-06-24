@@ -75,8 +75,12 @@ function Send-RedditToDiscord
             }
 
 
-            #Write-Verbose "Sending $url to Discord."
-            Invoke-RestMethod -Uri $hookUri -Method Post -Body ($payload | ConvertTo-Json) | Out-Null
+            
+            $Response = try {Invoke-RestMethod -Uri $hookUri -Method Post -Body ($payload | ConvertTo-Json) } catch { $_.Exception.Response }
+            if($Response.StatusCode -eq 429) {
+                Write-Error "We have been rate limited."
+                Break
+            }
             
             if($Count -gt 1) {
                 Start-Sleep -Seconds 1 | Out-Null
@@ -85,6 +89,7 @@ function Send-RedditToDiscord
     }
     End
     {
+        # Fix this later to use actual count rather than requested count.
         Write-Output "Sent $Count posts from https://old.reddit.com/r/$($subreddit) to Discord."
     }
 }
